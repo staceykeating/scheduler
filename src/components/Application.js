@@ -7,7 +7,8 @@ import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 
 
-export default function Application(props) {
+
+export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -15,9 +16,12 @@ export default function Application(props) {
     interviewers: {}
   });
 
-  const [day, setDay] = useState("Monday")
-  const [days, setDays] = useState([]);
-
+  const setDay = day => setState({...state, day });
+  const setDays = days => setState({...state, days});
+  
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
 
 
 useEffect(() => {
@@ -27,9 +31,14 @@ useEffect(() => {
   const promiseArray = urls.map(fetchUrls);
 
   Promise.all(promiseArray)
-  .then((response) => {
-    setState({...state, days: response[0].data, appointments: response[1].data, interviewers: response[2].data })
-  })
+    .then((response) => {
+     setState(prev => ({
+      ...prev, 
+      days: response[0].data, 
+      appointments: response[1].data, 
+      interviewers: response[2].data
+    }))
+    });
 
 }, [])
 
@@ -67,6 +76,7 @@ useEffect(() => {
       </section>
       <section className="schedule">
         {schedule}
+        
         </section>>
     </main>
     
