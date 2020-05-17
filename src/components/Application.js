@@ -33,7 +33,8 @@ export default function Application(props) {
       ...appointment
     })
     .then(() => {
-    setState({...state, appointments});
+    setState({...state, appointments})
+    .catch(error => console.log(error));
     })
   }
 
@@ -51,7 +52,8 @@ export default function Application(props) {
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
     .then(() => {
-      setState({...state, appointments});
+      setState({...state, appointments})
+      .catch(error => console.log(error));
     })
   }
   
@@ -71,7 +73,6 @@ useEffect(() => {
       appointments: response[1].data, 
       interviewers: response[2].data
     }))
-   // console.log(response[2].data[1]); this is not the issue.
     });
 
 }, [])
