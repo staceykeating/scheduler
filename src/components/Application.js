@@ -3,7 +3,7 @@ import DayList from "components/DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay} from "helpers/selectors";
 
 
 
@@ -19,9 +19,9 @@ export default function Application() {
   const setDay = day => setState({...state, day });
   const setDays = days => setState({...state, days});
   
-  function bookInterview(id, interview) {
-    console.log(id, interview);
-  }
+  // function bookInterview(id, interview) {
+  //   console.log(id, interview);
+  // }
 
 
 useEffect(() => {
@@ -38,16 +38,19 @@ useEffect(() => {
       appointments: response[1].data, 
       interviewers: response[2].data
     }))
+   // console.log(response[2].data[1]); this is not the issue.
     });
 
 }, [])
 
   const appointments = getAppointmentsForDay(state, state.day);
-
+  const interviewers = getInterviewersForDay(state, state.day);
+  console.log('Checking interviewers:',interviewers);
+  
   const schedule = appointments.map((appointment) => { 
     const interview = getInterview(state, appointment.interview);
     return (
-      <Appointment key={appointment.id} {...appointment} interview={interview}/>
+      <Appointment key={appointment.id} {...appointment} interview={interview} interviewers={interviewers}/>
   )}
   )
   
