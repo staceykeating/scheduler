@@ -8,7 +8,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay} from "helpe
 
 
 
-export default function Application() {
+export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -19,9 +19,42 @@ export default function Application() {
   const setDay = day => setState({...state, day });
   const setDays = days => setState({...state, days});
   
-  // function bookInterview(id, interview) {
-  //   console.log(id, interview);
-  // }
+  function bookInterview(id, interview) {
+    //console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {
+      ...appointment
+    })
+    .then(() => {
+    setState({...state, appointments});
+    })
+  }
+
+
+  function deleteInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: {...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    .then(() => {
+      setState({...state, appointments});
+    })
+  }
+  
 
 
 useEffect(() => {
@@ -45,12 +78,12 @@ useEffect(() => {
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
-  console.log('Checking interviewers:',interviewers);
-  
+  //console.log('Checking interviewers:',interviewers); //also not the issue
+ 
   const schedule = appointments.map((appointment) => { 
     const interview = getInterview(state, appointment.interview);
     return (
-      <Appointment key={appointment.id} {...appointment} interview={interview} interviewers={interviewers}/>
+      <Appointment key={appointment.id} {...appointment} interview={interview} interviewers={interviewers} bookInterview={bookInterview} deleteInterview={deleteInterview}/>
   )}
   )
   
