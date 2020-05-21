@@ -2,7 +2,6 @@ import React from "react";
 import "components/DayListItem.scss";
 const classNames = require("classnames");
 
-//const setDay = (day) => setState({ ...state, day });
 export default function DayListItem(props) {
   function formatSpots(props) {
     return props.spots === 0

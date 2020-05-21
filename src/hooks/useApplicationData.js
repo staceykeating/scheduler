@@ -10,8 +10,6 @@ export default function useApplicationData() {
   });
 
   function bookInterview(id, interview) {
-    //console.log(id, interview);
-
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -25,7 +23,7 @@ export default function useApplicationData() {
       if (day.name === state.day) {
         return {
           ...day,
-          spots: day.spots - 1,
+          spots: day.spots - 1, //decreases available spots on sidebar when an interview is booked
         };
       }
       return day;
@@ -53,7 +51,7 @@ export default function useApplicationData() {
       if (day.name === state.day) {
         return {
           ...day,
-          spots: day.spots + 1,
+          spots: day.spots + 1, //increases available spots when interview is deleted
         };
       }
       return day;

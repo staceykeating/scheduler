@@ -8,7 +8,6 @@ export default function InterviewerList(props) {
     value: PropTypes.number,
     setInterviewer: PropTypes.func.isRequired,
   };
-  //PropTypes.checkPropTypes("age", "MyComponent");
 
   const interviewers = props.interviewers.map((interviewer) => {
     return (

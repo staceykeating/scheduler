@@ -20,11 +20,12 @@ export default function Form(props) {
   }
 
   function validate() {
-    if (name === "") {
-      setError("Student name cannot be blank");
+    if (name === "" || interviewer === null) {
+      //requires student name and interviewer selection to submit
+      setError("Please provide the full details for interview.");
       return;
     }
-    setError("");
+    setError(""); //removes error message on new submit
     props.onSave(name, interviewer);
   }
 
